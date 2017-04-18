@@ -11,7 +11,10 @@ import { DataService } from "../../providers/api.service";
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
-  providers: [ DataService ]
+  providers: [
+    DataService,
+    CameraPreview
+  ]
 })
 export class HomePage {
 
