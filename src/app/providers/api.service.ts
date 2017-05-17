@@ -2,41 +2,36 @@
  * Created by thomas on 30/11/16.
  */
 
-import { Configuration } from "./configuration"
-import { Key } from "./key"
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
-import { Vessel } from '../models/vessel';
+import { Http, Response } from '@angular/http';
+import { Observable } from "rxjs/Observable";
+import { Boat } from "../models/boat";
 
 @Injectable()
 export class DataService {
-
-  private headers: Headers;
-
-  private key: Key;
-
-  constructor(private http: Http, private configuration: Configuration) {
-    this.headers = new Headers();
-    this.headers.append('Content-Type', 'application/json');
-    this.headers.append('Accept', 'application/json');
-    this.key = new Key();
+  static URL : string = "https://www.havre-port.com/map/getBoats";
+  constructor(private http: Http) {
   };
 
-  public getVesselBaseFromMmsi = (mmsi: string): Observable<Vessel> => {
-    return this.http.get(this.configuration.url + this.configuration.vessel_url.replace("{MMSI}", mmsi) + this.key.key)
-      .map((response: Response) => <Vessel>response.json())
+  getBoats(): Observable<Boat[]> {
+    return this.http.get( DataService.URL )
+      .map((response : Response) => {
+        return response.json().map( (mapData) => Boat.fromWebCall(mapData));
+      })
       .catch(this.handleError);
-  };
+  }
 
-  public getVesselsInArea = (lonLeft: number, latLeft: number, lonRight: number, latRight: number): Observable<Vessel[]> => {
-    return this.http.get(this.configuration.url + this.configuration.polygon_url.replace("{LON_LEFT}", lonLeft).replace("{LAT_BOTTOM}", latLeft).replace("{LON_RIGHT}", lonRight).replace("{LAT_TOP}", latRight) + this.key.key)
-      .map((response: Response) => <Vessel>response.json())
-      .catch(this.handleError);
-  };
-
-  private handleError(error: Response) {
-    console.error(error);
-    return Observable.throw(error.json().error || 'Server error');
-  };
+  private handleError (error: Response | any) {
+    // In a real world app, you might use a remote logging infrastructure
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
+    console.error(errMsg);
+    return Observable.throw(errMsg);
+  }
 }
