@@ -41,6 +41,15 @@ export class Boat {
    */
   private _size: Size = null;
 
+  /**
+   * Draught : Height under water
+   * @type {number}
+   * @private
+   */
+  private _draught : number = 0;
+
+  private _callsign : string = "";
+
   constructor() {
     this.position = new Position();
     this.size = new Size();
@@ -87,6 +96,22 @@ export class Boat {
     this._imo = value;
   }
 
+  get draught(): number {
+    return this._draught;
+  }
+
+  set draught(value: number) {
+    this._draught = value;
+  }
+
+  get callsign(): string {
+    return this._callsign;
+  }
+
+  set callsign(value: string) {
+    this._callsign = value;
+  }
+
   /**
    * Extract data from Le Havre Port API
    * @param data
@@ -101,6 +126,8 @@ export class Boat {
     this.mmsi = data.mmsi || data.batMmsi;
     this.name = data.nom;
     this.imo = data.imo;
+    this.draught = data.draught;
+    this.callsign = data.callsign;
   }
 
   /**
