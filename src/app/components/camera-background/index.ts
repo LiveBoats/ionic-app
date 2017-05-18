@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 
-
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -10,14 +9,14 @@ import {
 } from '@ionic-native/camera-preview';
 
 @Component({
-  template: '<p>Hello !</p>',
+  templateUrl: './template.html',
   providers: [
     CameraPreview,
     StatusBar,
     SplashScreen
   ]
 })
-export class MyApp {
+export class CameraBackground {
   private cameraPreviewOpts: CameraPreviewOptions = {
     x: 0,
     y: 0,
@@ -26,7 +25,7 @@ export class MyApp {
     camera: 'rear',
     tapPhoto: false,
     previewDrag: false,
-    toBack: false,
+    toBack: true,
     alpha: 1
   };
 

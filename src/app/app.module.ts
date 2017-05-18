@@ -2,25 +2,24 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser'
 
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { MyApp } from './app.component';
-import { HomePage } from './components/home/home';
+import { CameraBackground } from './components/camera-background/index';
 import { DataService } from './providers/api.service';
-import { Configuration } from './providers/configuration'
 
 @NgModule({
   declarations: [
-    MyApp,
-    HomePage
+    CameraBackground,
   ],
   imports: [
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(CameraBackground),
     BrowserModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    HomePage
+    CameraBackground
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, DataService, Configuration]
+  providers: [
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    DataService
+  ]
 })
 export class AppModule {}
