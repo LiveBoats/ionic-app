@@ -1,5 +1,6 @@
 import { Position } from "./position";
 import { Size } from "./size"
+import { Type } from "./type";
 
 /**
  * Boat model
@@ -49,6 +50,8 @@ export class Boat {
   private _draught : number = 0;
 
   private _callsign : string = "";
+
+  private _type: Type = Type.UNDEFINED;
 
   constructor() {
     this.position = new Position();
@@ -112,6 +115,14 @@ export class Boat {
     this._callsign = value;
   }
 
+  get type(): Type {
+    return this._type;
+  }
+
+  set type(value: Type) {
+    this._type = value;
+  }
+
   /**
    * Extract data from Le Havre Port API
    * @param data
@@ -128,6 +139,7 @@ export class Boat {
     this.imo = data.imo;
     this.draught = data.draught;
     this.callsign = data.callsign;
+    this.type = Type[ Type[ data.shiptype ] ];
   }
 
   /**
