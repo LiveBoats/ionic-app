@@ -135,11 +135,34 @@ export class Boat {
     this.size.length = data.batLong;
     this.size.width = data.batLarg;
     this.mmsi = data.mmsi || data.batMmsi;
-    this.name = data.nom;
+    this.name = data.nom || data.name;
     this.imo = data.imo;
     this.draught = data.draught;
     this.callsign = data.callsign;
     this.type = Type[ Type[ data.shiptype ] ];
+  }
+
+  /**
+   * @return array of label/item objects of all available properties
+   */
+  public getProperties() {
+    return [
+      {
+        label: 'MMSI',
+        value: this.mmsi
+      },
+      {
+        label: 'IMO',
+        value: this.imo
+      },
+      { label: 'Draught',
+        value: this.draught + ' m',
+      },
+      {
+        label: 'Callsign',
+        value: this.callsign
+      }
+    ];
   }
 
   /**

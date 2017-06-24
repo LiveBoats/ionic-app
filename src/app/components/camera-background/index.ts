@@ -3,13 +3,12 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import {
-  CameraPreview,
-  CameraPreviewOptions,
-} from '@ionic-native/camera-preview';
+import { CameraPreview, CameraPreviewOptions } from '@ionic-native/camera-preview';
+
+import { LandingPage } from "../../../pages/landing-page/landing-page.component";
 
 @Component({
-  templateUrl: './template.html',
+  template: '<ion-nav [root]="rootPage"></ion-nav>',
   providers: [
     CameraPreview,
     StatusBar,
@@ -17,7 +16,9 @@ import {
   ]
 })
 export class CameraBackground {
-  private cameraPreviewOpts: CameraPreviewOptions = {
+  rootPage = LandingPage;
+
+  cameraPreviewOpts: CameraPreviewOptions = {
     x: 0,
     y: 0,
     width: window.screen.width,
@@ -35,14 +36,16 @@ export class CameraBackground {
     cameraPreview: CameraPreview
   ) {
     platform.ready().then(() => {
-
-      cameraPreview.startCamera(this.cameraPreviewOpts).then(
-        (res) => {
-          console.log(res)
-        },
-        (err) => {
-          console.log(err)
-        });
+      // starting the camera before platform ready to avoid white screen
+      cameraPreview
+          .startCamera(this.cameraPreviewOpts)
+          .then(res => {
+              console.log(res);
+            },
+            err => {
+              console.log(err);
+            },
+          );
 
       statusBar.hide();
       splashScreen.hide();

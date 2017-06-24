@@ -19,3 +19,8 @@
 html, body, ion-app, ion-content, ion-page, .nav-decor {
   background-color: transparent !important
 }
+
+.action-sheet-group{
+  overflow: scroll;
+  height: 400px;
+}
