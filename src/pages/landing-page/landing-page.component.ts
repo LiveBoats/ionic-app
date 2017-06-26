@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheet, ActionSheetController, NavController } from 'ionic-angular';
-import { ActionSheetButton } from 'ionic-angular/components/action-sheet/action-sheet-options';
+import { NavController } from 'ionic-angular';
 
 import { Boat }        from '../../app/models/boat';
 import { BoatList }    from '../boat-list/boat-list.component';
-import { BoatDetails } from '../boat-details/boat-details.component';
 import { DataService } from '../../app/providers/api.service';
 
 
@@ -19,20 +17,20 @@ export class LandingPage implements OnInit {
   private boats : Array<Boat> = [];
 
   /**
-   * pop up menu to display boats in sight
+   * Indicate if a network operation is ongoing
    */
-  private actionSheet: ActionSheet;
+  private isLoading = true;
 
   /**
-   * Generated list of buttons
+   * Icon name that should be displayed
    */
-  private actionSheetButtons : Array<ActionSheetButton> = [];
+  private icon = "refresh";
 
   ngOnInit(): void {
     this.dataService.getBoats().subscribe(
       boats => {
         this.boats = boats;
-        console.log("ready")
+        this.setButtonReady();
       },
       error => console.log(error)
     )
@@ -40,15 +38,21 @@ export class LandingPage implements OnInit {
 
   constructor(
     private navCtrl: NavController,
-    private actionSheetController: ActionSheetController,
     private dataService: DataService
   ) { }
+
+  private setButtonReady() {
+    this.isLoading = false;
+    this.icon = 'boat';
+  }
 
   /**
    * Show all the boats returned by the service
    */
   private showBoatList() {
-    this.navCtrl.push(BoatList, {'boats': this.boats})
+    if (this.isLoading === false) {
+      this.navCtrl.push(BoatList, { 'boats': this.boats })
+    }
   }
 
 }
