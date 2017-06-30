@@ -10,8 +10,7 @@ import { Boat } from "../models/boat";
 @Injectable()
 export class DataService {
   static URL : string = "https://www.havre-port.com/map/getBoats";
-  constructor(private http: Http) {
-  };
+  constructor(private http: Http) {};
 
   getBoats(): Observable<Boat[]> {
     return this.http.get( DataService.URL )

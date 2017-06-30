@@ -1,5 +1,7 @@
-import {Position} from "../models/position";
-import {Boat} from "../models/boat";
+import { Position } from "../models/position";
+import { Boat } from "../models/boat";
+
+
 export class Area {
   public static EARTH_RADIUS : number = 6378.1;
 

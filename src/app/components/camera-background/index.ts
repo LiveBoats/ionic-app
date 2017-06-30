@@ -18,7 +18,7 @@ import { LandingPage } from "../../../pages/landing-page/landing-page.component"
 export class CameraBackground {
   rootPage = LandingPage;
 
-  cameraPreviewOpts: CameraPreviewOptions = {
+  private cameraPreviewOpts: CameraPreviewOptions = {
     x: 0,
     y: 0,
     width: window.screen.width,
@@ -30,23 +30,24 @@ export class CameraBackground {
     alpha: 1
   };
 
-  constructor(platform: Platform,
+  constructor(
+    platform: Platform,
     statusBar: StatusBar,
     splashScreen: SplashScreen,
-    cameraPreview: CameraPreview
+    cameraPreview: CameraPreview,
   ) {
+
+    cameraPreview.startCamera(this.cameraPreviewOpts)
+      .then(res => {
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      },
+    );
+
     platform.ready().then(() => {
       // starting the camera before platform ready to avoid white screen
-      cameraPreview
-          .startCamera(this.cameraPreviewOpts)
-          .then(res => {
-              console.log(res);
-            },
-            err => {
-              console.log(err);
-            },
-          );
-
       statusBar.hide();
       splashScreen.hide();
     });
